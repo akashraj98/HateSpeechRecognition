@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot  as plt
 import os
-from sklearn.externals import joblib
+import joblib
 import nltk.corpus
 from nltk.stem import WordNetLemmatizer
 from nltk import tokenize
@@ -13,17 +13,13 @@ import re
 
 
 
-
-
-
-
 class our_model():
 
     
     def __init__(self):
         
-        model = os.path.join(os.getcwd(),'model2')
-        vector = os.path.join(os.getcwd(),'vector2')
+        model = os.path.join(os.getcwd(),'model/model2')
+        vector = os.path.join(os.getcwd(),'model/vector2')
         self.estimator = joblib.load(model)
         self.preprocessor = joblib.load(vector)
         self.sw = set(stopwords.words('english'))    # all english stopwords as
@@ -52,15 +48,14 @@ class our_model():
         
     def get_csv(self,file):
         """
-        TAKES INPUT IN CSV FILE AND PREDICTS AND PLOT 
+        TAKES INPUT AS CSV FILE AND PREDICTS AND PLOT 
         
         """
         
         
         # for cleaning the file
         
-        file=self.cleaning(file)  
-        
+        file = self.cleaning(file)  
         
         
         vector =self.preprocessor.transform(file['tweet'])
@@ -110,6 +105,7 @@ class our_model():
         
         """
         
+        
         file['tweet'] = [''.join(     [WordNetLemmatizer().lemmatize(   re.sub('[^A-Za-z]',' ',text  )     ) for text in lis     ]      )      for lis in file['tweet']       ]
         a=[]
         for text in file['tweet']:
@@ -155,9 +151,7 @@ class our_model():
         plt.axis('equal')
         
         plt.tight_layout()
-        print('PIE PLOT')
-        plt.show()
-        fig.savefig('plot.jpeg')
+        fig.savefig('./public/plot.jpeg')
        
         
 

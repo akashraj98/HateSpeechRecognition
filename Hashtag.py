@@ -1,4 +1,4 @@
-
+from model.hate_recog import our_model
 import tweepy
 # import os
 import jsonpickle
@@ -23,7 +23,7 @@ choice = 1
 if(choice == 1):
     searchQuery = sys.argv[1] # this is what we're searching for
     maxTweets = int(sys.argv[2]) 
-    tweetsPerQry = 90
+    tweetsPerQry = 100
     tweet_count = 0
     
     sinceId = None
@@ -56,13 +56,16 @@ if(choice == 1):
         maxId = new_tweets[-1].id    
         #print('Downloaded {0} tweets'.format(tweet_count))
     
-    df= pandas.DataFrame(data =cTweet, columns= ['cleaned_tweet'])
+    df= pandas.DataFrame(data =cTweet, columns= ['tweet'])
     t_df= pandas.DataFrame(data= dTweet, columns =['tweets'])
 
     #df=tweetAnalyzer().tweets_to_data_frame(tweets=new_tweets)
     df.to_csv('hashtagt_df.csv')
-    savetxt('h_Tweets.txt',t_df.values,fmt='%s')
-
+    savetxt('./public/h_Tweets.txt',t_df.values,fmt='%s')
+    
+    hey =our_model()
+    hey.get_csv(df)
+    
     # df.head(10)
 
     print('Tweets Fetched')
